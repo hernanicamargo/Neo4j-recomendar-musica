@@ -1,0 +1,101 @@
+// Usuários
+CREATE (:Usuário {id: 'u1', nome: 'José'});
+CREATE (:Usuário {id: 'u2', nome: 'Maria'});
+CREATE (:Usuário {id: 'u3', nome: 'Pedro'});
+CREATE (:Usuário {id: 'u4', nome: 'João'});
+
+// Artistas
+CREATE (:Artista {nome: 'Queen'});
+CREATE (:Artista {nome: 'The Beatles'});
+CREATE (:Artista {nome: 'Daft Punk'});
+CREATE (:Artista {nome: 'Nirvana'});
+CREATE (:Artista {nome: 'Adele'});
+
+// Gêneros
+CREATE (:Gênero {nome: 'Rock'});
+CREATE (:Gênero {nome: 'Pop'});
+CREATE (:Gênero {nome: 'Eletrônica'});
+CREATE (:Gênero {nome: 'Grunge'});
+
+// Músicas
+CREATE (:Música {id: 'm1', título: 'Bohemian Rhapsody'});
+CREATE (:Música {id: 'm2', título: 'Another One Bites the Dust'});
+CREATE (:Música {id: 'm3', título: 'Hey Jude'});
+CREATE (:Música {id: 'm4', título: 'Let It Be'});
+CREATE (:Música {id: 'm5', título: 'Get Lucky'});
+CREATE (:Música {id: 'm6', título: 'One More Time'});
+CREATE (:Música {id: 'm7', título: 'Smells Like Teen Spirit'});
+CREATE (:Música {id: 'm8', título: 'Come As You Are'});
+CREATE (:Música {id: 'm9', título: 'Hello'});
+CREATE (:Música {id: 'm10', título: 'Rolling in the Deep'});
+
+//Relacionamentos
+
+// Música POR Artista
+MATCH (m:Música {id: 'm1'}), (a:Artista {nome: 'Queen'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm2'}), (a:Artista {nome: 'Queen'}) MERGE (m)-[:TOCADA_PORPOR]->(a);
+MATCH (m:Música {id: 'm3'}), (a:Artista {nome: 'The Beatles'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm4'}), (a:Artista {nome: 'The Beatles'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm5'}), (a:Artista {nome: 'Daft Punk'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm6'}), (a:Artista {nome: 'Daft Punk'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm7'}), (a:Artista {nome: 'Nirvana'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm8'}), (a:Artista {nome: 'Nirvana'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm9'}), (a:Artista {nome: 'Adele'}) MERGE (m)-[:TOCADA_POR]->(a);
+MATCH (m:Música {id: 'm10'}), (a:Artista {nome: 'Adele'}) MERGE (m)-[:TOCADA_POR]->(a);
+
+// Música NO_GÊNERO Gênero
+MATCH (m:Música {id: 'm1'}), (g:Gênero {nome: 'Rock'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm2'}), (g:Gênero {nome: 'Rock'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm3'}), (g:Gênero {nome: 'Rock'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm4'}), (g:Gênero {nome: 'Rock'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm5'}), (g:Gênero {nome: 'Eletrônica'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm6'}), (g:Gênero {nome: 'Eletrônica'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm7'}), (g:Gênero {nome: 'Grunge'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm8'}), (g:Gênero {nome: 'Grunge'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm9'}), (g:Gênero {nome: 'Pop'}) MERGE (m)-[:GENERO]->(g);
+MATCH (m:Música {id: 'm10'}), (g:Gênero {nome: 'Pop'}) MERGE (m)-[:GENERO]->(g);
+
+// José curte Queen e Adele
+MATCH (u:Usuário {id: 'u1'}), (m:Música {id: 'm1'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u1'}), (m:Música {id: 'm2'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u1'}), (m:Música {id: 'm9'}) MERGE (u)-[:CURTIU]->(m);
+
+// Maria curte Queen e Nirvana
+MATCH (u:Usuário {id: 'u2'}), (m:Música {id: 'm1'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u2'}), (m:Música {id: 'm7'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u2'}), (m:Música {id: 'm8'}) MERGE (u)-[:CURTIU]->(m);
+
+// Pedro curte Daft Punk e Adele
+MATCH (u:Usuário {id: 'u3'}), (m:Música {id: 'm5'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u3'}), (m:Música {id: 'm6'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u3'}), (m:Música {id: 'm10'}) MERGE (u)-[:CURTIU]->(m);
+
+// João curte Beatles e Nirvana
+MATCH (u:Usuário {id: 'u4'}), (m:Música {id: 'm3'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u4'}), (m:Música {id: 'm4'}) MERGE (u)-[:CURTIU]->(m);
+MATCH (u:Usuário {id: 'u4'}), (m:Música {id: 'm7'}) MERGE (u)-[:CURTIU]->(m);
+
+
+//Quantas vezes a musica foi curtida
+MATCH (m:Música)<-[:CURTIU]-(u:Usuário)
+WITH m, count(u) AS popularidade
+SET m.popularidade = popularidade;
+
+// Recomenda as mais curtidas (TIPO: top 5), excluindo as que ele já curtiu.
+MATCH (U1:Usuário {id: 'u1'})
+MATCH (m:Música)
+WHERE NOT (U1)-[:CURTIU]->(m)
+RETURN m.título AS recomendação,
+       m.popularidade
+ORDER BY m.popularidade DESC
+LIMIT 5;
+
+
+//Recomendação - musicas que outros com gosto parecido curtiram.
+MATCH (eu:Usuário {id: 'u1'})-[:CURTIU]->(:Música)<-[:CURTIU]-(similar:Usuário)-[:CURTIU]->(recomendada:Música)
+WHERE NOT (eu)-[:CURTIU]->(recomendada)
+RETURN recomendada.título AS recomendação,
+       count(similar) AS apoio,
+       coalesce(recomendada.popularidade, 0) AS popularidade
+ORDER BY apoio DESC, popularidade DESC
+LIMIT 5;
